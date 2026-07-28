@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Paddle
   rb2d: {fileID: 2389596138211300993}
   PlayerNumber: 0
-  moveSpeed: 2
+  moveSpeed: 10
 --- !u!50 &2389596138211300993
 Rigidbody2D:
   serializedVersion: 5

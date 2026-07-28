@@ -3,7 +3,7 @@ using UnityEngine;
 public class Paddle : MonoBehaviour
 {
     public Rigidbody2D rb2d;
-    public float PlayerNumber;
+    public int PlayerNumber;
     public float moveSpeed = 2f;
 
     private void Update()
@@ -32,9 +32,9 @@ public class Paddle : MonoBehaviour
 
     private void Move(float movement)
     {
-        Vector2 velo = rb2d.velocity;
+        Vector2 velo = rb2d.linearVelocity;
         velo.y = moveSpeed * movement;
-        rb2d.velocity = velo;
+        rb2d.linearVelocity = velo;
     }
 
 
