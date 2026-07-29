@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
+ 
     public Rigidbody2D rb2d;
     public int PlayerNumber;
     public float moveSpeed = 2f;
+
+    
 
     private void Update()
     {

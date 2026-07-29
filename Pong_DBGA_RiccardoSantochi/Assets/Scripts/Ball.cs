@@ -2,23 +2,31 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public GameManager gameManager;
+    
     public Rigidbody2D rb2d;
 
     public float MaxStartAngle = 0.8f;
-    public float movespeed = 8f;
-    public float startX = 0f;
+    //public float startSpeed = 15f;
+    private float startX = 0f;
     public float maxstartY = 4f;
     public float BallSpeedMultiplier = 1.1f;
 
-    public float minSpeed = 8f;
+    public float minSpeed = 15f;
     public float maxSpeed = 18f;// se non l'aggiungevo, la ball ad una certa velocità si bloccava al centro della mappa
     private void Start()
     {
-        FirstStep();
+        GameManager.instance.onReset += ResetballPosition;
+        GameManager.instance.gameUI.onStartGame += ResetBall;
+        
     }
 
-    private void FirstStep()
+
+    private void ResetBall()
+    {
+        FirstBallShot();
+        ResetballPosition();
+    }
+    private void FirstBallShot()
     {
         Vector2 direction;
 
@@ -33,14 +41,17 @@ public class Ball : MonoBehaviour
 
         direction.y = Random.Range(-MaxStartAngle, MaxStartAngle);
 
-        rb2d.linearVelocity = direction * movespeed;
+        rb2d.linearVelocity = direction * minSpeed;
     }
 
-    private void Resetball()
+    private void ResetballPosition()
     {
         float posY = Random.Range(-maxstartY, maxstartY);
-        Vector2 position = new Vector2(startX,posY);
+        Vector2 position = new Vector2(startX, posY);
         transform.position = position;
+
+        FirstBallShot();
+
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -49,9 +60,9 @@ public class Ball : MonoBehaviour
 
         if (goalzone != null)
         {
-            gameManager.OnGoalZoneReached(goalzone.PlayerNumber);
-            Resetball();
-            FirstStep();
+            GameManager.instance.OnGoalZoneReached(goalzone.PlayerNumber);
+            //ResetballPosition();
+            
         }
     }
 
@@ -123,7 +134,7 @@ public class Ball : MonoBehaviour
             // la traiettoria cambia molto poco.
             //
             // Questo serve a rendere i rimbalzi meno prevedibili.
-            direction.y += Random.Range(-0.3f, 0.3f);
+            direction.y += Random.Range(-0.25f, 0.25f);
 
 
             // Dopo aver modificato direction.y,
