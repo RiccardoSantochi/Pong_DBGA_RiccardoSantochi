@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3165703220312218417}
-  - component: {fileID: 952666882700769403}
+  - component: {fileID: -7505621628636450648}
   - component: {fileID: 2389596138211300993}
   - component: {fileID: 2819479282423956039}
   - component: {fileID: 8491816316685923094}
   m_Layer: 0
   m_Name: Paddle
-  m_TagString: Untagged
+  m_TagString: Paddle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +35,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &952666882700769403
+--- !u!114 &-7505621628636450648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,12 +44,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1007950239720310194}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c87c6340be6f0479a07e3c01f4c0c2, type: 3}
+  m_Script: {fileID: 11500000, guid: efcb9cadcf55ad644a1f3587c56a064f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Paddle
-  rb2d: {fileID: 2389596138211300993}
+  m_EditorClassIdentifier: Assembly-CSharp::Paddle_2
+  rb: {fileID: 2389596138211300993}
   PlayerNumber: 0
-  moveSpeed: 10
+  moveSpeedPaddle: 2
 --- !u!50 &2389596138211300993
 Rigidbody2D:
   serializedVersion: 5

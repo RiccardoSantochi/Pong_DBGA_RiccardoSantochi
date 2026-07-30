@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    
     public int ScorePlayer1, ScorePlayer2;
 
     public System.Action onReset;
@@ -10,6 +11,10 @@ public class GameManager : MonoBehaviour
     public int MaxScore = 10;
 
     public GameUI gameUI;
+    public GameAudioManager GameAudio;
+
+    public CameraShake ScreenShake;
+
 
     private void Awake()
     {
@@ -69,6 +74,7 @@ public class GameManager : MonoBehaviour
         if (winnerPlayer != 0)
         {
             gameUI.OnGameEnds(winnerPlayer);
+            GameAudio.PlayWinSound();
         }
         else if (onReset != null)
         {

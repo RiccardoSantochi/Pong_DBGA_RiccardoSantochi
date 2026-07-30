@@ -2,21 +2,27 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    
-    public Rigidbody2D rb2d;
+
+    public TrailRenderer ballTrail;//Variabile della scia che lascia la pallina dietro se.
+    public Rigidbody2D rb;
 
     public float MaxStartAngle = 0.8f;
-    //public float startSpeed = 15f;
     private float startX = 0f;
-    public float maxstartY = 4f;
-    public float BallSpeedMultiplier = 1.1f;
+    public float maxstartY = 3f;
+
+    public float BallSpeedMultiplier = 1.1f;//Variabile per aumentare la velocità della pallina.
 
     public float minSpeed = 15f;
     public float maxSpeed = 18f;// se non l'aggiungevo, la ball ad una certa velocità si bloccava al centro della mappa
+
+    public GameAudioManager audioManager;
+
+    public ParticleSystem collisionVFX;
     private void Start()
     {
         GameManager.instance.onReset += ResetballPosition;
         GameManager.instance.gameUI.onStartGame += ResetBall;
+
         
     }
 
@@ -41,14 +47,23 @@ public class Ball : MonoBehaviour
 
         direction.y = Random.Range(-MaxStartAngle, MaxStartAngle);
 
-        rb2d.linearVelocity = direction * minSpeed;
+        rb.linearVelocity = direction * minSpeed;
+
+        EmitterVFX(30);
     }
 
     private void ResetballPosition()
     {
+        // Disattiva la scia
+        ballTrail.emitting = false;
+
         float posY = Random.Range(-maxstartY, maxstartY);
         Vector2 position = new Vector2(startX, posY);
         transform.position = position;
+          
+        ballTrail.Clear(); // Cancella la vecchia scia
+        ballTrail.emitting = true;// Riattiva la scia
+
 
         FirstBallShot();
 
@@ -58,11 +73,18 @@ public class Ball : MonoBehaviour
     {
         GoalZone goalzone = collision.GetComponent<GoalZone>();
 
+        // Se entra nella zona goal
+        if (collision.gameObject.CompareTag("Goal"))
+        {
+            audioManager.PlayScoreSound();
+            GameManager.instance.ScreenShake.StartShake(0.054f, 0.2f);
+        }
         if (goalzone != null)
         {
             GameManager.instance.OnGoalZoneReached(goalzone.PlayerNumber);
             //ResetballPosition();
             
+
         }
     }
 
@@ -77,95 +99,57 @@ public class Ball : MonoBehaviour
         //controllo che la collisione sia avvenuta con un paddle
         if (paddle != null)
         {
-            // Calcolo la nuova velocità della pallina.
-            //
-            // rb2d.linearVelocity.magnitude
-            // restituisce la velocità attuale della pallina
-            // senza considerare la direzione.
-            //
-            // Per esempio:
-            // una velocità di (8, 0) ha magnitude 8;
-            // una velocità di (-8, 0) ha comunque magnitude 8.
-            //
-            // Moltiplico la velocità attuale per BallSpeedMultiplier,
-            // così la pallina accelera dopo ogni colpo sul paddle.
-            //
-            // Mathf.Min confronta il risultato con maxSpeed
-            // e sceglie il valore più piccolo.
-            //
-            // In questo modo la pallina accelera,
-            // ma non può mai superare la velocità massima.
 
+            // Se colpisce una paddle
+            if (collision.gameObject.CompareTag("Paddle"))
+            {
+                audioManager.PlayPaddleSound();
+                EmitterVFX(19);
+                GameManager.instance.ScreenShake.StartShake(0.056f, 0.05f);
+            }
+
+           
             float newSpeed = Mathf.Min(
-                rb2d.linearVelocity.magnitude * BallSpeedMultiplier,
+                rb.linearVelocity.magnitude * BallSpeedMultiplier,
                 maxSpeed
             );
-            // Salvo la direzione attuale della pallina.
-            //
-            // rb2d.linearVelocity contiene sia:
-            // - la direzione;
-            // - la velocità.
-            //
-            // Con ".normalized" trasformo il vettore
-            // in una direzione con lunghezza uguale a 1.
-            //
-            // Per esempio:
-            // (8, 4) potrebbe diventare circa (0.89, 0.45).
-            //
-            // La direzione resta la stessa,
-            // ma il valore della velocità viene temporaneamente eliminato.
-            Vector2 direction = rb2d.linearVelocity.normalized;
+           
+            Vector2 direction = rb.linearVelocity.normalized;
 
 
-            // Modifico la componente verticale della direzione.
-            //
-            // direction.y rappresenta il movimento verso l'alto o il basso.
-            //
-            // Random.Range(-0.3f, 0.3f)
-            // genera un numero casuale compreso tra -0.3 e 0.3.
-            //
-            // Se il numero è positivo,
-            // la pallina viene inclinata un po' più verso l'alto.
-            //
-            // Se il numero è negativo,
-            // la pallina viene inclinata un po' più verso il basso.
-            //
-            // Se il numero è vicino a zero,
-            // la traiettoria cambia molto poco.
-            //
-            // Questo serve a rendere i rimbalzi meno prevedibili.
             direction.y += Random.Range(-0.25f, 0.25f);
 
 
-            // Dopo aver modificato direction.y,
-            // il vettore potrebbe non avere più lunghezza 1.
-            //
-            // Normalize corregge il vettore
-            // mantenendo lo stesso angolo,
-            // ma riportando la sua lunghezza a 1.
-            //
-            // Questo è importante perché vogliamo controllare
-            // la velocità usando soltanto "newSpeed".
+            
             direction.Normalize();
 
 
-            // Applico finalmente la nuova velocità al Rigidbody2D.
-            //
-            // "direction" indica dove deve andare la pallina.
-            // "newSpeed" indica quanto velocemente deve muoversi.
-            //
-            // Moltiplicandoli ottengo un vettore completo
-            // che contiene sia direzione sia velocità.
-            rb2d.linearVelocity = direction * newSpeed;
+            
+            rb.linearVelocity = direction * newSpeed;
 
         }
+        // Se colpisce un muro
+        else if (collision.gameObject.CompareTag("Wall"))
+        {
+            audioManager.PlayWallSound();
+            EmitterVFX(10);
+            GameManager.instance.ScreenShake.StartShake(0.077f, 0.05f);
+        }
     }
+
+
+    private void EmitterVFX(int amount)
+    {
+        collisionVFX.Emit(amount);
+    }
+
+
 
     private void FixedUpdate()
     {
 
         // Calcolo la velocità attuale della pallina
-        float currentSpeed = rb2d.linearVelocity.magnitude;
+        float currentSpeed = rb.linearVelocity.magnitude;
 
         // Se la pallina è praticamente ferma,
         // non faccio nulla (evita problemi durante il reset).
@@ -177,8 +161,8 @@ public class Ball : MonoBehaviour
         // la stessa direzione.
         if (currentSpeed < minSpeed)
         {
-            rb2d.linearVelocity =
-                rb2d.linearVelocity.normalized * minSpeed;
+            rb.linearVelocity =
+                rb.linearVelocity.normalized * minSpeed;
         }
     }
 }
