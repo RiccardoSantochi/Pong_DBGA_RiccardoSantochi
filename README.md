@@ -25,3 +25,6 @@ Le collisioni attivano suoni, VFX e un effetto di vibrazione della telecamera.
  Utilizzo gli eventi "System.Action" che vengono utilizzati per gestire eventi tra gli script.
  Quando il GameManager richiama l’evento, tutti i metodi iscritti vengono eseguiti,
  per esempio il reset della pallina e delle racchette.
+
+NB: Nel progetto, nella cartella "Scenes" è presente la scena "Pong_RECOVERY" creata per sicurezza dopo la sovrascrizione 
+    della scena "Pong" durante la creazione del branch "release".
