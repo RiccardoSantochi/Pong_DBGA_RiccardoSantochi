@@ -5,7 +5,8 @@ CONTEGGIO ORE SVILUPPO: 7-9 ore
 
 DOCUMENTAZIONE DEL PROGETTO PONG 
 
-Il progetto è una versione 2D di Pong, sviluppata in Unity 6.5(6000.5.5f1)
+Il progetto è una versione 2D di Pong, sviluppata in Unity 6.5(6000.5.5f1) 
+
 Il giocatore controlla le racchette tramite tastiera e può scegliere tra modalità Player vs Player e Player vs AI.
 
 Gli script principali del progetto sono "Paddle" , "Ball" e "GameManager":
