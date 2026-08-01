@@ -3,7 +3,7 @@ Repository del test pratico Pong per il corso di Game Programming alla DBGA 2026
 
 CONTEGGIO ORE SVILUPPO: 7-9 ore
 
-DOCUMENTAZIONE DEL PROGETTO PONG 
+DOCUMENTAZIONE DEL PROGETTO
 
 Il progetto è una versione 2D di Pong, sviluppata in Unity 6.5(6000.5.5f1) 
 
@@ -26,5 +26,5 @@ Le collisioni attivano suoni, VFX e un effetto di vibrazione della telecamera.
  Quando il GameManager richiama l’evento, tutti i metodi iscritti vengono eseguiti,
  per esempio il reset della pallina e delle racchette.
 
-    Note aggiuntive: nel progetto, all'interno della cartella "Scenes" è presente la scena "Pong_RECOVERY" creata per sicurezza dopo la sovrascrizione 
+    Note aggiuntive: nel progetto all'interno della cartella "Scenes" è presente la scena "Pong_RECOVERY" creata per sicurezza dopo la sovrascrizione 
     della scena "Pong" durante la creazione del branch "release".
