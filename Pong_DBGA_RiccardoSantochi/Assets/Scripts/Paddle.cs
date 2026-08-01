@@ -8,7 +8,7 @@ public class Paddle : MonoBehaviour
      Serve per modificarne la velocità.*/
     public Rigidbody2D rb;
 
-    // Indicoi quale giocatore controlla questa paddle:
+    // Indico quale giocatore controlla questa paddle:
     // 1 = giocatore sinistro
     // 2 = giocatore destro
     public int PlayerNumber;
@@ -20,6 +20,8 @@ public class Paddle : MonoBehaviour
 
     public bool isAi;
     public Transform Ball;
+    //Questa variabile è una zona di tolleranza attorno all posizione Y della paddle
+    //ovvero, l'AI non si allineerà perfettamente al millimetro con la pallina.
     public float AiDeadZone = 0.15f;
 
     private Rigidbody2D rbBall;
@@ -28,6 +30,8 @@ public class Paddle : MonoBehaviour
     {
         if (Ball != null)
         {
+            //Cerco il componente "Rigidbody2D"
+            //dal GameObject della pallina.
             rbBall = Ball.GetComponent<Rigidbody2D>();
         }
     }
@@ -39,6 +43,7 @@ public class Paddle : MonoBehaviour
         // Salvo la velocità attuale del Rigidbody2D.
         Vector2 velocity = rb.linearVelocity;
 
+        //Controllo se il Player è controllato dal computer
         if (isAi == true)
         {
             movement = GetAiMovement();
@@ -141,7 +146,7 @@ public class Paddle : MonoBehaviour
         else
         {
             /*
-             * Se la palla si muove verso sinistra,
+             * Se la palla si muove verso sinistra oppure è ferma,
              * l'AI torna gradualmente al centro del campo.
              */
 

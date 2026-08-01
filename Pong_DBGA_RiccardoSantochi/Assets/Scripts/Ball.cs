@@ -10,7 +10,7 @@ public class Ball : MonoBehaviour
     //La massima inclinazione verticale assegnata al tiro iniziale della pallina. 
     public float MaxStartAngle = 0.8f;
     private float startX = 0f;
-    public float maxstartY = 3f;
+    public float maxstartY = 2f;
 
     //Variabile per aumentare la velocità della pallina ogni volta che collide con una racchetta.
     public float BallSpeedMultiplier = 1.1f;
@@ -25,7 +25,12 @@ public class Ball : MonoBehaviour
     public ParticleSystem collisionVFX;
     private void Start()
     {
-        GameManager.instance.onReset += ResetballPosition;
+        /* Quando il GameManager richiama l'evento "onReset"
+        dopo un goal, viene eseguito il reset della palla*/
+        GameManager.instance.onReset += ResetBall;
+
+        /*Quando la GameUI richiama "onStartGame" 
+        viene eseguito il reset della pallina*/
         GameManager.instance.gameUI.onStartGame += ResetBall;
 
     }
@@ -33,13 +38,12 @@ public class Ball : MonoBehaviour
 
     private void ResetBall()
     {
-      /* Richiamo la funzione per il primo colpo della pallina
-         e per riportarla alla posizione iniziale.*/
-        FirstBallShot();
+      //Richiamo le funzione per riposizionare e rilanciare la pallina.
         ResetballPosition();
+        BallShot();
     }
 
-    private void FirstBallShot()
+    private void BallShot()
     {
         Vector2 direction;
 
@@ -76,19 +80,16 @@ public class Ball : MonoBehaviour
         durante il reset della posizione*/
         ballTrail.emitting = false;
 
-        //Scelgo una posizone randomica compresa tra sull'asse Y 
+        //Genero una posizione Y randomica compresa tra il seguente intervallo 
         float posY = Random.Range(-maxstartY, maxstartY);
 
-        /*Creo la nuova posizone della pallina
-          e la sposto nella nuova posizione calcolata.*/
+        /*Creo la nuova posizione della pallina
+          e la assegno la nuova posizione calcolata al suo Transform.*/
         Vector2 position = new Vector2(startX, posY);
         transform.position = position;
           
         ballTrail.Clear(); // Cancella la vecchia scia
         ballTrail.emitting = true;// Riattiva la scia
-
-
-        FirstBallShot();
 
 
     }

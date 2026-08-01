@@ -23,7 +23,7 @@ public class GameUI : MonoBehaviour
         SettingsMenu.SetActive(false);
 
         AiRightPaddle.isAi = false;
-        switchModeText.text = "Player VS Player";
+        switchModeText.text = "PvP";
     }
 
     // Aggiorna i punteggi mostrati sullo schermo
@@ -34,18 +34,19 @@ public class GameUI : MonoBehaviour
     }
 
 
-
+    // Viene chiamato per cambiare modalità
     public void OnSwitchModeButtonClicked()
     {
+        //NOT boolean
         AiRightPaddle.isAi = !AiRightPaddle.isAi;
 
         if (AiRightPaddle.isAi)
         {
-            switchModeText.text = "Player VS AI";
+            switchModeText.text = "PvC";
         }
         else
         {
-            switchModeText.text = "Player VS Player";
+            switchModeText.text = "PvP";
         }
     }
 
@@ -54,6 +55,7 @@ public class GameUI : MonoBehaviour
     {
         // Nasconde il menu
         MenuObject.SetActive(false);
+
 
         // Controlla che l'evento esista prima di eseguirlo
         if (onStartGame != null)
