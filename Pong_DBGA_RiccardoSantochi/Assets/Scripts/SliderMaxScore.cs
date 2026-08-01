@@ -31,7 +31,7 @@ public class SliderMaxScore : MonoBehaviour
         gameManager.MaxScore = newMaxScore;
 
         // Mostro il valore sullo schermo
-        scoreText.text = "Max Score: " + newMaxScore;
+        scoreText.text = "Max score: " + newMaxScore;
     }
 }
 

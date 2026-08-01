@@ -13,10 +13,54 @@ public class Paddle : MonoBehaviour
     // 2 = giocatore destro
     public int PlayerNumber;
 
-    
+
     public float moveSpeedPaddle = 2f;
+    public float moveSpeedAi = 1f;
+
+
+    public bool isAi;
+    public Transform Ball;
+    public float AiDeadZone = 0.15f;
+
+    private Rigidbody2D rbBall;
+
+    private void Start()
+    {
+        if (Ball != null)
+        {
+            rbBall = Ball.GetComponent<Rigidbody2D>();
+        }
+    }
 
     private void Update()
+    {
+
+        float movement = 0f;
+        // Salvo la velocità attuale del Rigidbody2D.
+        Vector2 velocity = rb.linearVelocity;
+
+        if (isAi == true)
+        {
+            movement = GetAiMovement();
+
+            velocity.y = movement * moveSpeedAi;
+
+        }
+        else
+        {
+            movement = GetPlayerMovement();
+            // Modifico soltanto la velocità verticale.
+            velocity.y = movement * moveSpeedPaddle;
+
+        }
+
+
+        // Applico la nuova velocità alla paddle.
+        rb.linearVelocity = velocity;
+    }
+
+
+    private float GetPlayerMovement()
     {
         // Direzione del movimento:
         // 1 = verso l'alto
@@ -28,7 +72,7 @@ public class Paddle : MonoBehaviour
         // Se non esiste, interrompo il metodo.
         if (Keyboard.current == null)
         {
-            return;
+            return 0f;
         }
 
         // Controlli del Player1.
@@ -63,13 +107,60 @@ public class Paddle : MonoBehaviour
             }
         }
 
-        // Salvo la velocità attuale del Rigidbody2D.
-        Vector2 velocity = rb.linearVelocity;
+        return movement;
 
-        // Modifico soltanto la velocità verticale.
-        velocity.y = movement * moveSpeedPaddle;
+    }
 
-        // Applico la nuova velocità alla paddle.
-        rb.linearVelocity = velocity;
+    private float GetAiMovement()
+    {
+
+        float movement = 0f;
+
+        if (Ball == null || rbBall == null)
+        {
+            return 0f;
+        }
+        /*
+            * Se la palla si muove verso destra,
+            * quindi verso la paddle AI, l'AI la segue.
+            */
+        if (rbBall.linearVelocity.x > 0f)
+        {
+            // Se la palla è sopra, la paddle sale.
+            if (Ball.position.y > transform.position.y + AiDeadZone)
+            {
+                movement = 1f;
+            }
+
+            // Se la palla è sotto, la paddle scende.
+            if (Ball.position.y < transform.position.y - AiDeadZone)
+            {
+                movement = -1f;
+            }
+        }
+        else
+        {
+            /*
+             * Se la palla si muove verso sinistra,
+             * l'AI torna gradualmente al centro del campo.
+             */
+
+            // La paddle è sopra il centro: scende.
+            if (transform.position.y > AiDeadZone)
+            {
+                movement = -1f;
+            }
+
+            // La paddle è sotto il centro: sale.
+            if (transform.position.y < -AiDeadZone)
+            {
+                movement = 1f;
+            }
+        }
+
+        return movement;
+
     }
 }
+
+

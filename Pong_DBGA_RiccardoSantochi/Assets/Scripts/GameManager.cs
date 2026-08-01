@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    //Con static creo una sola copia della variabile instance e la utilizzo per utti gli oggetti della classe.
     public static GameManager instance;
     
     public int ScorePlayer1, ScorePlayer2;
+    public GameObject ball;
 
     public System.Action onReset;
 
@@ -75,17 +78,22 @@ public class GameManager : MonoBehaviour
         {
             gameUI.OnGameEnds(winnerPlayer);
             GameAudio.PlayWinSound();
+            ball.SetActive(false);
         }
         else if (onReset != null)
         {
             onReset.Invoke();
         }
     }
+
+    //Imposto i punteggi di entrambi i player a zero.
     private void OnStartGame()
     {
         ScorePlayer1 = 0;
         ScorePlayer2 = 0;
 
+        // Attivo la pallina.
+        ball.SetActive(true);
         gameUI.UpdateScores(ScorePlayer1, ScorePlayer2);
     }
 }
