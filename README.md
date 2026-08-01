@@ -26,5 +26,5 @@ Le collisioni attivano suoni, VFX e un effetto di vibrazione della telecamera.
  Quando il GameManager richiama l’evento, tutti i metodi iscritti vengono eseguiti,
  per esempio il reset della pallina e delle racchette.
 
-    NB: Nel progetto, all'interno della cartella "Scenes" è presente la scena "Pong_RECOVERY" creata per sicurezza dopo la sovrascrizione 
+    Note aggiuntive: Nel progetto, all'interno della cartella "Scenes" è presente la scena "Pong_RECOVERY" creata per sicurezza dopo la sovrascrizione 
     della scena "Pong" durante la creazione del branch "release".
