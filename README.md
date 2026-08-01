@@ -1,5 +1,5 @@
 # Pong_DBGA_RiccardoSantochi
-Repository del test pratico Pong per il corso di Game Programming alla DBGA 
+Repository del test pratico Pong per il corso di Game Programming alla DBGA 2026/2027
 
 CONTEGGIO ORE SVILUPPO: 7-9 ore
 
