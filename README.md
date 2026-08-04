@@ -14,9 +14,9 @@ Gli script principali del progetto sono "Paddle" , "Ball" e "GameManager":
 - Paddle gestisce il movimento delle racchette, gli input e il comportamento dell’intelligenza artificiale.
 L’AI segue la posizione verticale della pallina solo quando questa si muove nella sua direzione, altrimenti
 si sposterà gradualmente alla posizione centrale del campo.
-Ho anche aggiunto delle "AiDeadZone" che cerca di rendere il comportamento meno preciso e più naturale.
+Ho anche aggiunto la "AiDeadZone" che cerca di rendere il comportamento meno preciso e più naturale.
 
-- Ball invece gestisce controlla posizione, lancio iniziale, velocità, collisioni ed effetti della pallina.
+- Ball invece gestisce e controlla posizione, lancio iniziale, velocità, collisioni ed effetti della pallina.
 A ogni collisione con una racchetta, la velocità aumenta fino a un valore massimo stabilito.
 La direzione viene leggermente modificata in modo casuale per rendere le partite meno prevedibili.
 Le collisioni attivano suoni, VFX e un effetto di vibrazione della telecamera.
